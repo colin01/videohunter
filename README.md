@@ -22,9 +22,14 @@
 </li>
 
 <li>
-数据库基本操作,
+数据库基本操作,insert,update,delete,select 其中$table,为要操作的表名.$data是要插入的键值对,即数据库的字段为键名,对应的值为键值.
+$where为满足的条件,也是键值对.
 </li>
+<li>数据库的大小等操作,max,min,avg,sum,count 其中$column为要统计的元组名.</li>
+<li>判断是否存在的isin,如存在,该函数返回此资源否则返回false</li>
+<li>数据表操作,create, $struct代表创建的数据表结构,也是键值对,键名代表字段名,键值代表字段的数据类型,drop(),即为删除一个数据表</li>
 
+<li>KVDB的操作,cache_init为cache初始化,将创建一个cache表,可选参数$size,为创建的字段分别赋 varchar text blob数据类型,只需经过一次初始化,以后可以通过get,set操作数据,这和memcache很类似,只是没有memcache效率高,同时当一个$key的$value值设置为null时,即为删除此$key.</li>
 </ol>
 
 <h2>附录-供使用的dbhelper内置方法</h2>
