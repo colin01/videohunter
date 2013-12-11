@@ -22,12 +22,37 @@
 </li>
 
 <li>
-数据库基本操作
+数据库基本操作,
 </li>
 
 </ol>
 
-<h2>附录</h2>
+<h2>附录-供使用的dbhelper内置方法</h2>
+<ul>
+
+<p>数据基本操作</p>
+<li>insert($table,$data)</li>
+<li>delete($table,$where)</li>
+<li>select($table,where=null,column="*")</li>
+<li>update($table,$where,$data)</li>
+<li>max($table,$column)</li>
+<li>min($table,$colnum)</li>
+<li>avg($table,$column)</li>
+<li>sum($table,$column)</li>
+<li>count($table,$column="*")</li>
+<li>isin($table,$where)</li>
+
+<p>数据表操作</p>
+
+<p>KVDB的使用</p>
+
+<li>cache_init($size=1)</li>
+<li>cache_drop()</li>
+<li>get($key)</li>
+<li>set($key,$value)</li>
+
+
+</ul>
 <h2>联系</h2>
 <ul>
 <li>我的博客 <a href="http://blog.suconghou.cn">http://blog.suconghou.cn</a></li>
