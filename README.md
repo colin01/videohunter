@@ -43,6 +43,8 @@
 <li>isin($table,$where)</li>
 
 <p>数据表操作</p>
+<li>create($table,$struct)</li>
+<li>drop($table)</li>
 
 <p>KVDB的使用</p>
 
@@ -51,7 +53,9 @@
 <li>get($key)</li>
 <li>set($key,$value)</li>
 
-
+<p>未完成的</p>
+<li>like() 基本的模糊查询</li>
+<li>complex_select() SQL复合查询</li>
 </ul>
 <h2>联系</h2>
 <ul>
