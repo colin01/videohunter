@@ -35,7 +35,7 @@ $where为满足的条件,也是键值对.
 <h2>附录-供使用的dbhelper内置方法</h2>
 <ul>
 
-<p>数据基本操作</p>
+<b>数据基本操作</b>
 <li>insert($table,$data)</li>
 <li>delete($table,$where)</li>
 <li>select($table,where=null,column="*")</li>
@@ -47,18 +47,18 @@ $where为满足的条件,也是键值对.
 <li>count($table,$column="*")</li>
 <li>isin($table,$where)</li>
 
-<p>数据表操作</p>
+<b>数据表操作</b>
 <li>create($table,$struct)</li>
 <li>drop($table)</li>
 
-<p>KVDB的使用</p>
+<b>KVDB的使用</b>
 
 <li>cache_init($size=1)</li>
 <li>cache_drop()</li>
 <li>get($key)</li>
 <li>set($key,$value)</li>
 
-<p>未完成的</p>
+<b>未完成的</b>
 <li>like() 基本的模糊查询</li>
 <li>complex_select() SQL复合查询</li>
 </ul>
