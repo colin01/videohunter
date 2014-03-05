@@ -49,7 +49,7 @@ class db
 		$strv.=implode(',',$v);     
    		$strk.=implode(",",$k);
 		
-		$sql="INSERT INTO {$table} ({$strk}) VALUES ({$strv})";
+		$sql="INSERT INTO `{$table}` ({$strk}) VALUES ({$strv})";
 		$result=$this->query($sql);
 		return $result;
 
@@ -76,7 +76,7 @@ class db
 		
    		$strk.=implode("and",$k);
 		  
-   		$sql="UPDATE {$table} SET {$strv} WHERE ({$strk})";
+   		$sql="UPDATE `{$table}` SET {$strv} WHERE ({$strk})";
    		$result=$this->query($sql);
    		return $result;
 
@@ -95,7 +95,7 @@ class db
    		$strk.=implode("and",$k);
 
 		
-		$result = $this ->query("DELETE FROM {$table} WHERE ({$strk})");  
+		$result = $this ->query("DELETE FROM `{$table}` WHERE ({$strk})");  
 		return $result;
 
 	}
@@ -134,33 +134,33 @@ class db
 	}
 	function max($table,$column)
 	{
-		$sql="select max({$column}) from {$table}";
+		$sql="SELECT MAX({$column}) FROM `{$table}`";
 		$result=$this->query($sql);
 		return mysql_fetch_array($result);
 
 	}
 	function min($table,$column)
 	{
-		$sql="select min({$column}) from {$table}";
+		$sql="SELECT MIN({$column}) FROM `{$table}`";
 		$result=$this->query($sql);
 		return mysql_fetch_array($result);
 
 	}
 	function avg($table,$column)
 	{
-		$sql="select avg({$column}) from {$table}";
+		$sql="SELECT AVG({$column}) FROM `{$table}`";
 		$result=$this->query($sql);
 		return mysql_fetch_array($result);
 	}
 	function sum($table,$column)
 	{
-		$sql="select sum({$column}) from {$table}";
+		$sql="SELECT SUM({$column}) FROM `{$table}`";
 		$result=$this->query($sql);
 		return mysql_fetch_array($result);
 	}
 	function count($table,$column="*")
 	{
-		$sql="select count({$column}) from {$table}";
+		$sql="SELECT COUNT({$column}) FROM `{$table}`";
 		$result=$this->query($sql);
 		return mysql_fetch_array($result);
 
@@ -178,7 +178,7 @@ class db
 		
    		$strk.=implode("and",$k);
 		  
-   		$sql="select * from {$table}  WHERE ({$strk})";
+   		$sql="SELECT * FROM {$table}  WHERE ({$strk})";
    		$result=$this->query($sql);
    		return $result;
 
@@ -196,14 +196,14 @@ class db
 			$v[]="`".$key."`".' '.$value;
 		}
 		$strv.=implode(',',$v);  
-		$sql="CREATE TABLE IF NOT EXISTS {$table} ({$strv})";
+		$sql="CREATE TABLE IF NOT EXISTS `{$table}` ({$strv})";
 		$result=$this->query($sql);
 		return $result;
 
 	}
 	function drop($table)
 	{
-		$sql="DROP TABLE IF EXISTS {$table}";
+		$sql="DROP TABLE IF EXISTS `{$table}` ";
 		$result=$this->query($sql);
 		return $result;
 
