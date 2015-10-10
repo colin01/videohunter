@@ -7,6 +7,11 @@
 */
 class Media
 {
+
+	private static $sz='-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,62,-1,-1,-1,63,52,53,54,55,56,57,58,59,60,61,-1,-1,-1,-1,-1,-1,-1,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,-1,-1,-1,-1,-1,-1,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,-1,-1,-1,-1,-1';
+	private static $source="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/\\:._-1234567890";
+	private static $str='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+
 	
 	function __construct()
 	{
@@ -35,6 +40,10 @@ class Media
 		{
 			$data=self::getLeTvInfo($url);
 		}
+		else if(strpos($url,'kuwo.cn'))
+		{
+			$data=self::getKuWoInfo($url);
+		}
 		else
 		{
 			$data=false;
@@ -45,7 +54,7 @@ class Media
 	//爱奇艺视频解析
 	private static function getIQiYiInfo($url)
 	{
-		$html=self::httpGet($url);
+		$html=self::httpGet($url,86400);
 		$html=substr($html,strpos($html,'data-player-collectionid',4e4),150);
 		$pattern='/[\S\s]+?data-player-videoid="(\w{32})"[\S\s]+?data-player-tvid="(\d{9})"[\S\s]+?/';
 		if(preg_match_all($pattern,$html,$matches))
@@ -133,15 +142,12 @@ class Media
 						$sharpness=array('flv'=>'normal','flvhd'=>'normal','mp4'=>'high','hd2'=>'super','3gphd'=>'high','3gp'=>'normal','hd3'=>'original'); //清晰度 数组
 						$fileType=$typeArray[$key];
 						$data[$sharpness[$key]][$k]="http://k.youku.com/player/getFlvPath/sid/{$sid}_00/st/{$fileType}/fileid/{$fileId}?K={$_k}&hd=1&myp=0&ts=".((((($v['seconds'].'&ypp=0&ctype=12&ev=1&token=').$token).'&oip=').$ip).'&ep=').$ep;
-					
 					}
 				}
 			}
 			return $data;
-
 		}
 		return false;
-
 	}
 	private static function fromCharCode($codes)
 	{
@@ -420,7 +426,7 @@ class Media
 	}
 
 	//酷我音乐解析
-	private static function getKuWoInfo($url)
+	public static function getKuWoInfo($search,$index=0,$page=1,$pageSize=20)
 	{
 		if(is_numeric($search))
 		{
@@ -450,6 +456,15 @@ class Media
 		return false;
 
 	}
+
+	//百度音乐解析
+	private static function getBaiduYinYueInfo()
+	{
+
+	}
+
+
+	##############################辅助函数###########################
 
 	private static function httpGet($urls,$expired=600,$timeout=5)
 	{
@@ -516,7 +531,7 @@ class Media
 				else
 				{
 					unset($data[$key]);
-					file_put_contents($filename,serialize($data));
+					return file_put_contents($filename,serialize($data));
 				}
 			}
 			return null;
