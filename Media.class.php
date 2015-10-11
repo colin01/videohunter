@@ -3,7 +3,8 @@
 
 /**
 * 各大视频网站地址解析
-* 目前支持 爱奇艺/优酷/音悦台/芒果TV/乐视TV
+* 目前支持 优酷/芒果TV/音悦台 (其他 酷我音乐)
+* 正在攻破 爱奇艺/乐视TV
 */
 class Media
 {
@@ -106,7 +107,11 @@ class Media
 		}
 		if($videoId)
 		{
-			$meta=json_decode(self::httpGet("http://v.youku.com/player/getPlayList/VideoIDS/{$videoId}/Pf/4/ctype/12/ev/1"),true);
+			$url=array("http://play.youku.com/play/get.json?vid={$videoId}&ct=10","http://v.youku.com/player/getPlayList/VideoIDS/{$videoId}/Pf/4/ctype/12/ev/1");
+			list($metaLogo,$meta)=self::httpGet($url);
+			$metaLogo=json_decode($metaLogo,true);
+			$img=$metaLogo['data']['video']['logo'];
+			$meta=json_decode($meta,true);
 			$streamtypes=$meta['data'][0]['streamtypes']; //可以输出的视频清晰度
 			$streamfileids=$meta['data'][0]['streamfileids'];
 			$seed=$meta['data'][0]['seed'];
@@ -115,7 +120,7 @@ class Media
 			$bsegs=$meta['data'][0]['segs'];
 			$ep=$meta['data'][0]['ep'];
 			list($sid,$token)=explode('_',self::e('becaf9be',self::na($ep)));
-			$data=array('img'=>$meta['data'][0]['logo'],'title'=>$meta['data'][0]['title'],'seconds'=>$meta['data'][0]['seconds']);
+			$data=array('img'=>$img,'title'=>$meta['data'][0]['title'],'duration'=>$meta['data'][0]['seconds']);
 			foreach($segs as $key => $val)
 			{
 				if(in_array($key,$streamtypes))
@@ -368,6 +373,7 @@ class Media
 			$vid=$matches[1][0];
 			$tkey=self::getTkey(time());
 			$baseInfo=json_decode(self::httpGet("http://api.letv.com/mms/out/video/playJson?id={$vid}&platid=1&splatid=101&format=1&tkey={$tkey}&domain=www.letv.com&dvtype=1000&accessyx=1",60),true);
+			var_dump($tkey,$vid,$baseInfo);die;
 			$info=&$baseInfo['playurl'];
 			$data=array('title'=>$info['title'],'img'=>$info['pic'],'duration'=>$info['duration']);
 			$args='&ctv=pc&m3v=1&termid=1&format=2&hwtype=un&ostype=Windows8.1&tag=letv&sign=letv&expect=0';
@@ -376,12 +382,10 @@ class Media
 			{
 				$item=str_replace('ios','no',$item);
 			}
-			var_dump($urls);die;
 			list($normal,$high,$super)=self::httpGet($urls,60);
 			$normal=json_decode($normal,true);
 			$high=json_decode($high,true);
 			$super=json_decode($super,true);
-			echo '<pre>';print_r($normal);die;
 		}
 		return false;
 	}
@@ -414,13 +418,11 @@ class Media
 		if(preg_match_all($pattern,$content,$matches))
 		{
 			$title=$matches[1][0];
-			$image=$matches[2][0];
+			$img=$matches[2][0];
 			$id=$matches[3][0];
-			$info=self::httpGet("http://www.yinyuetai.com/api/info/get-video-urls?videoId={$id}");
-			$info=json_decode($info,true);
-			$info['title']=&$title;
-			$info['image']=&$image;
-			return $info;
+			$info=json_decode(self::httpGet("http://www.yinyuetai.com/api/info/get-video-urls?videoId={$id}"),true);
+			$data=array('img'=>$img,'title'=>$title,'duration'=>$info['duration'],'normal'=>array($info['hcVideoUrl']),'high'=>array($info['hdVideoUrl']),'super'=>array($info['heVideoUrl']));
+			return $data;
 		}
 		return false;
 	}
